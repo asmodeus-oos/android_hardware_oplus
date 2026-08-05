@@ -6,7 +6,13 @@
 #include <aidl/android/hardware/power/BnPower.h>
 #include <aidl/vendor/oplus/hardware/touch/IOplusTouch.h>
 
+#include <cerrno>
+#include <climits>
+#include <cstdlib>
+
 #include <android-base/logging.h>
+#include <android-base/stringprintf.h>
+#include <android-base/strings.h>
 #include <android/binder_manager.h>
 
 #include <OplusTouchConstants.h>
@@ -41,9 +47,23 @@ bool setDeviceSpecificMode(Mode type, bool enabled) {
                     ndk::SpAIBinder(AServiceManager_waitForService(instance.c_str())));
             LOG(INFO) << "Power mode: " << toString(type) << " isDoubleTapEnabled: " << enabled;
 
+            if (!oplusTouch) {
+                LOG(ERROR) << "Oplus touch service is unavailable";
+                return false;
+            }
+
             oplusTouch->touchReadNodeFile(OplusTouchConstants::DEFAULT_TP_IC_ID,
                                           OplusTouchConstants::DOUBLE_TAP_INDEP_NODE, &tmp);
-            contents = std::stoi(tmp, nullptr, 16);
+            const std::string value = ::android::base::Trim(tmp);
+            char* end = nullptr;
+            errno = 0;
+            const long parsed = std::strtol(value.c_str(), &end, 16);
+            if (errno != 0 || end == value.c_str() || *end != '\0' || parsed < 0 ||
+                    parsed > INT_MAX) {
+                LOG(ERROR) << "Invalid double-tap gesture mask";
+                return false;
+            }
+            contents = static_cast<int>(parsed);
 
             if (enabled) {
                 contents |= OplusTouchConstants::DOUBLE_TAP_GESTURE;
@@ -52,10 +72,11 @@ bool setDeviceSpecificMode(Mode type, bool enabled) {
             }
 
             oplusTouch->touchWriteNodeFileOneWay(OplusTouchConstants::DEFAULT_TP_IC_ID,
-                                                 OplusTouchConstants::DOUBLE_TAP_ENABLE_NODE, "1");
+                                                 OplusTouchConstants::DOUBLE_TAP_ENABLE_NODE,
+                                                 contents != 0 ? "1" : "0");
             oplusTouch->touchWriteNodeFileOneWay(OplusTouchConstants::DEFAULT_TP_IC_ID,
                                                  OplusTouchConstants::DOUBLE_TAP_INDEP_NODE,
-                                                 std::to_string(contents));
+                                                 ::android::base::StringPrintf("%x", contents));
             return true;
         }
         default:

@@ -5,13 +5,19 @@
 
 #define LOG_TAG "vendor.lineage.touch-service.oplus"
 
+#include <cerrno>
+#include <climits>
+#include <cstdlib>
+
 #include <android-base/file.h>
+#include <android-base/stringprintf.h>
 #include <android-base/strings.h>
 
 #include <OplusTouchConstants.h>
 #include <TouchscreenGestureConfig.h>
 
 using ::android::base::ReadFileToString;
+using ::android::base::StringPrintf;
 using ::android::base::Trim;
 using ::android::base::WriteStringToFile;
 
@@ -48,9 +54,27 @@ ndk::ScopedAStatus TouchscreenGesture::setGestureEnabled(const Gesture& gesture,
     if (std::string tmp; mOplusTouch) {
         mOplusTouch->touchReadNodeFile(OplusTouchConstants::DEFAULT_TP_IC_ID,
                                        OplusTouchConstants::DOUBLE_TAP_INDEP_NODE, &tmp);
-        contents = std::stoi(tmp, nullptr, 16);
+        const std::string value = Trim(tmp);
+        char* end = nullptr;
+        errno = 0;
+        const long parsed = std::strtol(value.c_str(), &end, 16);
+        if (errno != 0 || end == value.c_str() || *end != '\0' || parsed < 0 ||
+                parsed > INT_MAX) {
+            return ndk::ScopedAStatus::fromExceptionCodeWithMessage(
+                    EX_ILLEGAL_ARGUMENT, "Invalid gesture mask");
+        }
+        contents = static_cast<int>(parsed);
     } else if (ReadFileToString(kGestureEnableIndepPath, &tmp)) {
-        contents = std::stoi(Trim(tmp), nullptr, 16);
+        const std::string value = Trim(tmp);
+        char* end = nullptr;
+        errno = 0;
+        const long parsed = std::strtol(value.c_str(), &end, 16);
+        if (errno != 0 || end == value.c_str() || *end != '\0' || parsed < 0 ||
+                parsed > INT_MAX) {
+            return ndk::ScopedAStatus::fromExceptionCodeWithMessage(
+                    EX_ILLEGAL_ARGUMENT, "Invalid gesture mask");
+        }
+        contents = static_cast<int>(parsed);
     } else {
         return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
     }
@@ -63,11 +87,12 @@ ndk::ScopedAStatus TouchscreenGesture::setGestureEnabled(const Gesture& gesture,
 
     if (mOplusTouch) {
         mOplusTouch->touchWriteNodeFileOneWay(OplusTouchConstants::DEFAULT_TP_IC_ID,
-                                              OplusTouchConstants::DOUBLE_TAP_ENABLE_NODE, "1");
+                                              OplusTouchConstants::DOUBLE_TAP_ENABLE_NODE,
+                                              contents != 0 ? "1" : "0");
         mOplusTouch->touchWriteNodeFileOneWay(OplusTouchConstants::DEFAULT_TP_IC_ID,
                                               OplusTouchConstants::DOUBLE_TAP_INDEP_NODE,
-                                              std::to_string(contents));
-    } else if (!WriteStringToFile(std::to_string(contents), kGestureEnableIndepPath, true)) {
+                                              StringPrintf("%x", contents));
+    } else if (!WriteStringToFile(StringPrintf("%x", contents), kGestureEnableIndepPath, true)) {
         return ndk::ScopedAStatus::fromExceptionCode(EX_UNSUPPORTED_OPERATION);
     }
 
