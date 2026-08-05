@@ -52,6 +52,8 @@ namespace vibrator {
 #define STRONG_MAGNITUDE 0x7fff
 #define MEDIUM_MAGNITUDE 0x5fff
 #define LIGHT_MAGNITUDE 0x3fff
+// Keep short UI feedback effects subtle while preserving stronger effects.
+#define UI_HAPTIC_MAGNITUDE ((STRONG_MAGNITUDE * 20) / 100)
 #define INVALID_VALUE -1
 #define CUSTOM_DATA_LEN 3
 #define NAME_BUF_SIZE 32
@@ -321,6 +323,15 @@ int InputFFDevice::playEffect(int effectId, EffectStrength es, long* playLengthM
             break;
         default:
             return -1;
+    }
+
+    // Android's click/tick feedback uses these predefined effects. Scale only
+    // those effects so alerts and explicitly requested stronger vibrations are
+    // not affected.
+    if (effectId == static_cast<int>(Effect::CLICK) ||
+        effectId == static_cast<int>(Effect::DOUBLE_CLICK) ||
+        effectId == static_cast<int>(Effect::TICK)) {
+        mCurrMagnitude = UI_HAPTIC_MAGNITUDE;
     }
 
     return play(effectId, INVALID_VALUE, playLengthMs);
