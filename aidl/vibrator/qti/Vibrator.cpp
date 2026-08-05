@@ -52,8 +52,12 @@ namespace vibrator {
 #define STRONG_MAGNITUDE 0x7fff
 #define MEDIUM_MAGNITUDE 0x5fff
 #define LIGHT_MAGNITUDE 0x3fff
-// Keep short UI feedback effects subtle while preserving stronger effects.
-#define UI_HAPTIC_MAGNITUDE ((STRONG_MAGNITUDE * 20) / 100)
+// Keep short UI feedback effects crisp on the SLA0815 LRA while preserving
+// the requested effect strength.  The previous fixed 20% cap made clicks,
+// ticks, and fingerprint success feedback nearly imperceptible.
+#define UI_LIGHT_MAGNITUDE ((STRONG_MAGNITUDE * 24) / 100)
+#define UI_MEDIUM_MAGNITUDE ((STRONG_MAGNITUDE * 32) / 100)
+#define UI_STRONG_MAGNITUDE ((STRONG_MAGNITUDE * 40) / 100)
 #define INVALID_VALUE -1
 #define CUSTOM_DATA_LEN 3
 #define NAME_BUF_SIZE 32
@@ -332,7 +336,19 @@ int InputFFDevice::playEffect(int effectId, EffectStrength es, long* playLengthM
     if (effectId == static_cast<int>(Effect::CLICK) ||
         effectId == static_cast<int>(Effect::DOUBLE_CLICK) ||
         effectId == static_cast<int>(Effect::TICK)) {
-        mCurrMagnitude = UI_HAPTIC_MAGNITUDE;
+        switch (es) {
+            case EffectStrength::LIGHT:
+                mCurrMagnitude = UI_LIGHT_MAGNITUDE;
+                break;
+            case EffectStrength::MEDIUM:
+                mCurrMagnitude = UI_MEDIUM_MAGNITUDE;
+                break;
+            case EffectStrength::STRONG:
+                mCurrMagnitude = UI_STRONG_MAGNITUDE;
+                break;
+            default:
+                return -1;
+        }
     }
 
     return play(effectId, INVALID_VALUE, playLengthMs);
