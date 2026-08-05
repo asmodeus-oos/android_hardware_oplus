@@ -294,8 +294,9 @@ int InputFFDevice::setAmplitude(uint8_t amplitude) {
     /* For QMAA compliance, return OK even if vibrator device doesn't exist */
     if (mVibraFd == INVALID_VALUE) return 0;
 
-    tmp = amplitude * (STRONG_MAGNITUDE - LIGHT_MAGNITUDE) / 255;
-    tmp += LIGHT_MAGNITUDE;
+    // AIDL amplitudes are normalized values. Do not add the old 50% minimum
+    // magnitude: it turns subtle UI waveforms into harsh, rattling pulses.
+    tmp = amplitude * STRONG_MAGNITUDE / 255;
     ie.type = EV_FF;
     ie.code = FF_GAIN;
     ie.value = tmp;
