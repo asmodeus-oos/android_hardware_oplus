@@ -93,3 +93,7 @@ type vendor_proc_ultrasound, fs_type, proc_type;
 
 # Versioning
 type vendor_proc_oplus_version, fs_type, proc_type;
+
+# ferrari torch LEDs (qti flash driver brightness nodes, driven by SystemUI
+# for flashlight strength levels the vendor CamX HAL does not support)
+type ferrari_torch_brightness, fs_type, sysfs_type;
