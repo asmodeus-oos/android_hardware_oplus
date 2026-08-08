@@ -234,6 +234,8 @@ genfscon sysfs /devices/platform/soc/soc:qcom,pmic_glink/soc:qcom,pmic_glink:qco
 genfscon sysfs /devices/platform/soc/soc:qcom,pmic_glink/soc:qcom,pmic_glink:qcom,battery_charger/usb/wakeup u:object_r:sysfs_wakeup:s0
 genfscon sysfs /devices/platform/vendor/vendor:motor_pl/wakeup u:object_r:sysfs_wakeup:s0
 
-# ferrari torch LED brightness nodes (flashlight strength, driven by SystemUI)
-genfscon sysfs /class/leds/led:torch_0/brightness u:object_r:ferrari_torch_brightness:s0
-genfscon sysfs /class/leds/led:torch_1/brightness u:object_r:ferrari_torch_brightness:s0
+# ferrari torch LED brightness nodes (flashlight strength, driven by SystemUI).
+# /sys/class/leds/... is a symlink; SELinux labels sysfs files by their real
+# device path, so match the pm8350c flash_led device path instead.
+genfscon sysfs /devices/platform/soc/c42d000.qcom,spmi/spmi-0/0-02/c42d000.qcom,spmi:qcom,pm8350c@2:qcom,flash_led@ee00/leds/led:torch_0/brightness u:object_r:ferrari_torch_brightness:s0
+genfscon sysfs /devices/platform/soc/c42d000.qcom,spmi/spmi-0/0-02/c42d000.qcom,spmi:qcom,pm8350c@2:qcom,flash_led@ee00/leds/led:torch_1/brightness u:object_r:ferrari_torch_brightness:s0
