@@ -43,8 +43,18 @@ bool setDeviceSpecificMode(Mode type, bool enabled) {
             int contents = 0;
 
             const std::string instance = std::string() + IOplusTouch::descriptor + "/default";
-            std::shared_ptr<IOplusTouch> oplusTouch = IOplusTouch::fromBinder(
-                    ndk::SpAIBinder(AServiceManager_waitForService(instance.c_str())));
+            // Do not wait for the stock Oplus touch service here.  ferrari does
+            // not ship that service, and waiting for it blocks the power HAL
+            // forever.  PowerManagerService then blocks in nativeInit until
+            // system_server's watchdog kills the device during every boot.
+            AIBinder* binder = AServiceManager_checkService(instance.c_str());
+            if (binder == nullptr) {
+                LOG(WARNING) << "Oplus touch service is unavailable; using the QTI touch-node fallback";
+                return false;
+            }
+
+            std::shared_ptr<IOplusTouch> oplusTouch =
+                    IOplusTouch::fromBinder(ndk::SpAIBinder(binder));
             LOG(INFO) << "Power mode: " << toString(type) << " isDoubleTapEnabled: " << enabled;
 
             if (!oplusTouch) {
