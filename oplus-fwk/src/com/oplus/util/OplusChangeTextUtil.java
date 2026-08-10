@@ -1,5 +1,7 @@
 package com.oplus.util;
 
+import android.compat.annotation.UnsupportedAppUsage;
+
 public class OplusChangeTextUtil {
 
     private static final String TAG = "OplusChangeTextUtil";
@@ -10,17 +12,18 @@ public class OplusChangeTextUtil {
     private static final float H4 = 1.25f;
     private static final float H5 = 1.45f;
     private static final float H6 = 1.65f;
-
-    public static final int G1 = 1;
+@UnsupportedAppUsage
+public static final int G1 = 1;
     public static final int G2 = 2;
     public static final int G3 = 3;
     public static final int G4 = 4;
     public static final int G5 = 5;
     public static final int G6 = 6;
+@UnsupportedAppUsage
+public static final float[] SCALE_LEVEL = {H1, H2, H3, H4, H5, H6};
 
-    public static final float[] SCALE_LEVEL = {H1, H2, H3, H4, H5, H6};
-
-    public static float getSuitableFontSize(float textSize, float scale, int level) {
+    @UnsupportedAppUsage
+public static float getSuitableFontSize(float textSize, float scale, int level) {
         if (level < 2) {
             return textSize;
         }

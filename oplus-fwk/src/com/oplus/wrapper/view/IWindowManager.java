@@ -5,6 +5,7 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.RemoteException;
 import android.view.IRotationWatcher;
+import android.compat.annotation.UnsupportedAppUsage;
 
 public interface IWindowManager {
 
@@ -25,12 +26,14 @@ public interface IWindowManager {
             mIWindowManager = windowManager;
         }
 
-        public static IWindowManager asInterface(IBinder obj) {
+        @UnsupportedAppUsage
+public static IWindowManager asInterface(IBinder obj) {
             return new Proxy(android.view.IWindowManager.Stub.asInterface(obj));
         }
 
         @Override
-        public IBinder asBinder() {
+        @UnsupportedAppUsage
+public IBinder asBinder() {
             return mIWindowManager.asBinder();
         }
 
@@ -43,42 +46,50 @@ public interface IWindowManager {
             }
 
             @Override
-            public int getDockedStackSide() throws RemoteException {
+            @UnsupportedAppUsage
+public int getDockedStackSide() throws RemoteException {
                 return mIWindowManager.getDockedStackSide();
             }
 
             @Override
-            public int getInitialDisplayDensity(int displayId) throws RemoteException {
+            @UnsupportedAppUsage
+public int getInitialDisplayDensity(int displayId) throws RemoteException {
                 return mIWindowManager.getInitialDisplayDensity(displayId);
             }
 
             @Override
-            public boolean hasNavigationBar(int displayId) throws RemoteException {
+            @UnsupportedAppUsage
+public boolean hasNavigationBar(int displayId) throws RemoteException {
                 return mIWindowManager.hasNavigationBar(displayId);
             }
 
             @Override
-            public int watchRotation(IRotationWatcher watcher, int displayId) throws RemoteException {
+            @UnsupportedAppUsage
+public int watchRotation(IRotationWatcher watcher, int displayId) throws RemoteException {
                 return mIWindowManager.watchRotation(watcher, displayId);
             }
 
             @Override
-            public void removeRotationWatcher(IRotationWatcher watcher) throws RemoteException {
+            @UnsupportedAppUsage
+public void removeRotationWatcher(IRotationWatcher watcher) throws RemoteException {
                 mIWindowManager.removeRotationWatcher(watcher);
             }
 
             @Override
-            public void setForcedDisplayDensityForUser(int displayId, int density, int userId) throws RemoteException {
+            @UnsupportedAppUsage
+public void setForcedDisplayDensityForUser(int displayId, int density, int userId) throws RemoteException {
                 mIWindowManager.setForcedDisplayDensityForUser(displayId, density, userId);
             }
 
             @Override
-            public int getBaseDisplayDensity(int displayId) throws RemoteException {
+            @UnsupportedAppUsage
+public int getBaseDisplayDensity(int displayId) throws RemoteException {
                 return mIWindowManager.getBaseDisplayDensity(displayId);
             }
 
             @Override
-            public void getBaseDisplaySize(int displayId, Point size) throws RemoteException {
+            @UnsupportedAppUsage
+public void getBaseDisplaySize(int displayId, Point size) throws RemoteException {
                 mIWindowManager.getBaseDisplaySize(displayId, size);
             }
         }

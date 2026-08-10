@@ -5,6 +5,8 @@
 
 package com.android.internal.telephony;
 
+import android.compat.annotation.UnsupportedAppUsage;
+
 public class OplusFeature {
     public static final boolean OPLUS_FEATURE_CALL_RECOVERY_DISABLED = false;
     public static final boolean OPLUS_FEATURE_RADIO_VIRTUALMODEM = false;

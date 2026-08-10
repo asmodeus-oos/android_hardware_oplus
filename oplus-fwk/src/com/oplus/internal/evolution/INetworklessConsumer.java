@@ -7,6 +7,7 @@ package com.oplus.internal.evolution;
 
 import android.os.Bundle;
 import android.os.IInterface;
+import android.compat.annotation.UnsupportedAppUsage;
 
 public interface INetworklessConsumer extends IInterface {
     default void accept(long token, int resultCode, Bundle data) {}

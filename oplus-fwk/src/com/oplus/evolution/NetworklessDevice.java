@@ -7,17 +7,19 @@ package com.oplus.evolution;
 
 import java.util.HashMap;
 import java.util.Map;
+import android.compat.annotation.UnsupportedAppUsage;
 
 public class NetworklessDevice {
+    @UnsupportedAppUsage
     public static final NetworklessDevice DEFAULT = new NetworklessDevice();
-
-    public static final int CAPABILITY_ID_BR = 1;
+@UnsupportedAppUsage
+public static final int CAPABILITY_ID_BR = 1;
     public static final int CAPABILITY_ID_BT = 2;
     public static final int CAPABILITY_ID_NB = 4;
     public static final int CAPABILITYR_ID_WB = 8;
     public static final int CAPABILITY_ID_BLR = 16;
-
-    protected int mAbility = 0;
+@UnsupportedAppUsage
+protected int mAbility = 0;
     protected Map<Integer, String> mAddress = new HashMap<>();
     protected int mCapabilitMask = 0;
     protected String mChangeMacHash = null;
@@ -28,83 +30,103 @@ public class NetworklessDevice {
     protected byte mSalt = 0;
     protected String mShortMacHash = null;
 
-    public int getAbility() {
+    @UnsupportedAppUsage
+public int getAbility() {
         return mAbility;
     }
 
-    public Map<Integer, String> getAddressMap() {
+    @UnsupportedAppUsage
+public Map<Integer, String> getAddressMap() {
         return mAddress;
     }
 
-    public int getCapabilityMask() {
+    @UnsupportedAppUsage
+public int getCapabilityMask() {
         return mCapabilitMask;
     }
 
-    public String getChangeMacHash() {
+    @UnsupportedAppUsage
+public String getChangeMacHash() {
         return mChangeMacHash;
     }
 
-    public String getDeviceId() {
+    @UnsupportedAppUsage
+public String getDeviceId() {
         return mDeviceId;
     }
 
-    public String[] getMsisdnHash() {
+    @UnsupportedAppUsage
+public String[] getMsisdnHash() {
         return mMsisdnHash;
     }
 
-    public String getNickName() {
+    @UnsupportedAppUsage
+public String getNickName() {
         return mNickName;
     }
 
-    public int getOperatingMode() {
+    @UnsupportedAppUsage
+public int getOperatingMode() {
         return mOperatingMode;
     }
 
-    public byte getSalt() {
+    @UnsupportedAppUsage
+public byte getSalt() {
         return mSalt;
     }
 
-    public String getShortMacHash() {
+    @UnsupportedAppUsage
+public String getShortMacHash() {
         return mShortMacHash;
     }
 
-    public void setAbility(int ability) {
+    @UnsupportedAppUsage
+public void setAbility(int ability) {
         mAbility = ability;
     }
 
-    public void setAddressMap(Map<Integer, String> map) {
+    @UnsupportedAppUsage
+public void setAddressMap(Map<Integer, String> map) {
         mAddress = map != null ? map : new HashMap<>();
     }
 
-    public void setCapabilityMask(int mask) {
+    @UnsupportedAppUsage
+public void setCapabilityMask(int mask) {
         mCapabilitMask = mask;
     }
 
-    public void setChangeMacHash(String hash) {
+    @UnsupportedAppUsage
+public void setChangeMacHash(String hash) {
         mChangeMacHash = hash;
     }
 
-    public void setDeviceId(String id) {
+    @UnsupportedAppUsage
+public void setDeviceId(String id) {
         mDeviceId = id;
     }
 
-    public void setMsisdnHash(String[] arr) {
+    @UnsupportedAppUsage
+public void setMsisdnHash(String[] arr) {
         mMsisdnHash = (arr != null) ? arr : new String[0];
     }
 
-    public void setNickName(String name) {
+    @UnsupportedAppUsage
+public void setNickName(String name) {
         mNickName = name;
     }
 
-    public void setOperatingMode(int mode) {
+    @UnsupportedAppUsage
+public void setOperatingMode(int mode) {
         mOperatingMode = mode;
     }
 
-    public void setSalt(byte salt) {
+    @UnsupportedAppUsage
+public void setSalt(byte salt) {
         mSalt = salt;
     }
 
-    public void setShortMacHash(String hash) {
+    @UnsupportedAppUsage
+public void setShortMacHash(String hash) {
         mShortMacHash = hash;
     }
 }

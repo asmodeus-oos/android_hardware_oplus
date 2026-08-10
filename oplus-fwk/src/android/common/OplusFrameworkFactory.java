@@ -5,10 +5,13 @@
 
 package android.common;
 
+import android.compat.annotation.UnsupportedAppUsage;
+
 public class OplusFrameworkFactory implements IOplusCommonFactory {
     public static OplusFrameworkFactory sInstance = null;
 
-    public static OplusFrameworkFactory getInstance() {
+    @UnsupportedAppUsage
+public static OplusFrameworkFactory getInstance() {
         if (sInstance == null) {
             sInstance = new OplusFrameworkFactory();
         }
@@ -16,7 +19,8 @@ public class OplusFrameworkFactory implements IOplusCommonFactory {
     }
 
     @Override
-    public boolean isValid(int index) {
+    @UnsupportedAppUsage
+public boolean isValid(int index) {
         boolean validOplus =
                 index < OplusFeatureList.OplusIndex.EndOplusFrameworkFactory.ordinal() &&
                 index > OplusFeatureList.OplusIndex.StartOplusFrameworkFactory.ordinal();

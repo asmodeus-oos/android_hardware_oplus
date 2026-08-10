@@ -1,5 +1,7 @@
 package android.view.animation;
 
+import android.compat.annotation.UnsupportedAppUsage;
+
 public class OplusUnitBezier {
 
     private double ax;
@@ -23,19 +25,23 @@ public class OplusUnitBezier {
         cy = d3;
     }
 
-    public double sampleCurveX(double t) {
+    @UnsupportedAppUsage
+public double sampleCurveX(double t) {
         return ((ax * t + bx) * t + cx) * t;
     }
 
-    public double sampleCurveY(double t) {
+    @UnsupportedAppUsage
+public double sampleCurveY(double t) {
         return ((ay * t + by) * t + cy) * t;
     }
 
-    public double sampleCurveDerivativeX(double t) {
+    @UnsupportedAppUsage
+public double sampleCurveDerivativeX(double t) {
         return (ax * 3.0d * t + bx * 2.0d) * t + cx;
     }
 
-    public double solveCurveX(double x, double epsilon) {
+    @UnsupportedAppUsage
+public double solveCurveX(double x, double epsilon) {
         double t = x;
         for (int i = 0; i < 8; i++) {
             double x2 = sampleCurveX(t) - x;
@@ -72,7 +78,8 @@ public class OplusUnitBezier {
         return t2;
     }
 
-    public double solve(double x, double epsilon) {
+    @UnsupportedAppUsage
+public double solve(double x, double epsilon) {
         return sampleCurveY(solveCurveX(x, epsilon));
     }
 }

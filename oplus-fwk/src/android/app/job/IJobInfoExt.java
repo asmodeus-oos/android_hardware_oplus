@@ -1,12 +1,15 @@
 package android.app.job;
 
+import android.compat.annotation.UnsupportedAppUsage;
+
 public interface IJobInfoExt {
 
     public final class JobBuilderExt {
+@UnsupportedAppUsage
+public boolean mIsOplusJob;
 
-        public boolean mIsOplusJob;
-
-        public JobBuilderExt setRequiresBattIdle(boolean requiresBattIdle, int extra) {
+        @UnsupportedAppUsage
+public JobBuilderExt setRequiresBattIdle(boolean requiresBattIdle, int extra) {
             return this;
         }
     }

@@ -8,36 +8,44 @@ package com.android.internal.telephony;
 import com.oplus.content.OplusFeatureConfigManager;
 
 import java.util.List;
+import android.compat.annotation.UnsupportedAppUsage;
 
 public class OplusFeatureHelper {
     private static OplusFeatureHelper sInstance = null;
 
-    public static OplusFeatureHelper getInstance() {
+    @UnsupportedAppUsage
+public static OplusFeatureHelper getInstance() {
         if (sInstance == null) {
             sInstance = new OplusFeatureHelper();
         }
         return sInstance;
     }
 
-    public boolean hasFeature(String featureName) {
+    @UnsupportedAppUsage
+public boolean hasFeature(String featureName) {
         return false;
     }
 
-    public boolean enableFeature(String featureName) {
+    @UnsupportedAppUsage
+public boolean enableFeature(String featureName) {
         return true;
     }
 
-    public boolean disableFeature(String featureName) {
+    @UnsupportedAppUsage
+public boolean disableFeature(String featureName) {
         return true;
     }
 
-    public void notifyFeaturesUpdate(String action, String actionValue) {}
+    @UnsupportedAppUsage
+public void notifyFeaturesUpdate(String action, String actionValue) {}
 
-    public boolean registerFeatureObserver(List<String> features, FeatureObserver observer) {
+    @UnsupportedAppUsage
+public boolean registerFeatureObserver(List<String> features, FeatureObserver observer) {
         return true;
     }
 
-    public boolean unregisterFeatureObserver(FeatureObserver observer) {
+    @UnsupportedAppUsage
+public boolean unregisterFeatureObserver(FeatureObserver observer) {
         return true;
     }
 

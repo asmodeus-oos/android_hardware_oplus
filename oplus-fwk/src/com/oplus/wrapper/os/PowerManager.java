@@ -1,5 +1,7 @@
 package com.oplus.wrapper.os;
 
+import android.compat.annotation.UnsupportedAppUsage;
+
 public class PowerManager {
 
     private final android.os.PowerManager mPowerManager;
@@ -8,7 +10,8 @@ public class PowerManager {
         mPowerManager = powerManager;
     }
 
-    public int getMaximumScreenBrightnessSetting() {
+    @UnsupportedAppUsage
+public int getMaximumScreenBrightnessSetting() {
         return mPowerManager.getMaximumScreenBrightnessSetting();
     }
 }

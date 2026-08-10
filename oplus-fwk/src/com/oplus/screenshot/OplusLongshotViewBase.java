@@ -1,6 +1,7 @@
 package com.oplus.screenshot;
 
 import android.content.Context;
+import android.compat.annotation.UnsupportedAppUsage;
 
 public interface OplusLongshotViewBase {
 

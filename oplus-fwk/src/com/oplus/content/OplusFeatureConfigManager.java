@@ -6,20 +6,23 @@
 package com.oplus.content;
 
 import android.text.TextUtils;
+import android.compat.annotation.UnsupportedAppUsage;
 
 import java.util.List;
 
 public class OplusFeatureConfigManager {
     public static OplusFeatureConfigManager sInstance = null;
 
-    public static OplusFeatureConfigManager getInstance() {
+    @UnsupportedAppUsage
+public static OplusFeatureConfigManager getInstance() {
         if (sInstance == null) {
             sInstance = new OplusFeatureConfigManager();
         }
         return sInstance;
     }
 
-    public boolean hasFeature(String featureName) {
+    @UnsupportedAppUsage
+public boolean hasFeature(String featureName) {
         return false;
     }
 

@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.graphics.Region;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
+import android.compat.annotation.UnsupportedAppUsage;
 
 public class FlexibleTaskView extends SurfaceView {
 

@@ -1,5 +1,7 @@
 package android.view.animation;
 
+import android.compat.annotation.UnsupportedAppUsage;
+
 public class OplusBezierInterpolator extends BaseInterpolator {
 
     private static final float ABOVE_ZERO = 0.0001f;
@@ -18,7 +20,8 @@ public class OplusBezierInterpolator extends BaseInterpolator {
     }
 
     @Override
-    public float getInterpolation(float input) {
+    @UnsupportedAppUsage
+public float getInterpolation(float input) {
         double interpolation = mOplusUnitBezier.solve(input, EPSILON);
         if (mLimit) {
             final boolean above = input >= ABOVE_ZERO && input <= BELOW_ONE;

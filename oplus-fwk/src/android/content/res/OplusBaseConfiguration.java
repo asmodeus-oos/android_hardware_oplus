@@ -1,10 +1,12 @@
 package android.content.res;
 
 import oplus.content.res.OplusExtraConfiguration;
+import android.compat.annotation.UnsupportedAppUsage;
 
 public abstract class OplusBaseConfiguration {
 
-    public OplusExtraConfiguration getOplusExtraConfiguration() {
+    @UnsupportedAppUsage
+public OplusExtraConfiguration getOplusExtraConfiguration() {
         return null;
     }
 }

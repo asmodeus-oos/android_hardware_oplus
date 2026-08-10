@@ -6,6 +6,7 @@
 package com.oplus.ims.stub;
 
 import android.content.Context;
+import android.compat.annotation.UnsupportedAppUsage;
 
 import com.oplus.ims.IImsExt;
 
@@ -18,7 +19,8 @@ public class ImsServiceControllerExt {
         mImsExtStub = new ImsExtStub();
     }
 
-    public IImsExt getIImsExt() {
+    @UnsupportedAppUsage
+public IImsExt getIImsExt() {
         return mImsExtStub;
     }
 

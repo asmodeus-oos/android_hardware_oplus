@@ -13,6 +13,7 @@ import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemProperties;
 import android.util.Log;
+import android.compat.annotation.UnsupportedAppUsage;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -34,13 +35,17 @@ public final class OplusCameraManager implements IOplusCameraManager {
     private boolean mIsCameraUnitSession = false;
     private boolean mbLoad = false;
 
-    public native int nativeSendToAttachHWBufToBufQEvent(long j);
+    @UnsupportedAppUsage
+public native int nativeSendToAttachHWBufToBufQEvent(long j);
 
-    public native int nativeSendToBufQAllocEnableEvent(long j);
+    @UnsupportedAppUsage
+public native int nativeSendToBufQAllocEnableEvent(long j);
 
-    public native int nativeSendToExchgHWBufBtwBufQEvent(long j);
+    @UnsupportedAppUsage
+public native int nativeSendToExchgHWBufBtwBufQEvent(long j);
 
-    public native void nativtSendToProcessHeif(long j);
+    @UnsupportedAppUsage
+public native void nativtSendToProcessHeif(long j);
 
     private OplusCameraManager() {
     }
@@ -59,27 +64,32 @@ public final class OplusCameraManager implements IOplusCameraManager {
         }
     }
 
-    public void sendToProcessHeif(long ptr) {
+    @UnsupportedAppUsage
+public void sendToProcessHeif(long ptr) {
         checkLoadLibrary();
         nativtSendToProcessHeif(ptr);
     }
 
-    public int sendToBufQAllocEnableEvent(long ptr) {
+    @UnsupportedAppUsage
+public int sendToBufQAllocEnableEvent(long ptr) {
         checkLoadLibrary();
         return nativeSendToBufQAllocEnableEvent(ptr);
     }
 
-    public int sendToExchgHWBufBtwBufQEvent(long ptr) {
+    @UnsupportedAppUsage
+public int sendToExchgHWBufBtwBufQEvent(long ptr) {
         checkLoadLibrary();
         return nativeSendToExchgHWBufBtwBufQEvent(ptr);
     }
 
-    public int sendToAttachHWBufToBufQEvent(long ptr) {
+    @UnsupportedAppUsage
+public int sendToAttachHWBufToBufQEvent(long ptr) {
         checkLoadLibrary();
         return nativeSendToAttachHWBufToBufQEvent(ptr);
     }
 
-    public static synchronized OplusCameraManager getInstance() {
+    @UnsupportedAppUsage
+public static synchronized OplusCameraManager getInstance() {
         OplusCameraManager oplusCameraManager;
         synchronized (OplusCameraManager.class) {
             oplusCameraManager = mInstance;
@@ -87,7 +97,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         return oplusCameraManager;
     }
 
-    public static Object getEmptyCameraMetadataNative(long[] metadataPtr) {
+    @UnsupportedAppUsage
+public static Object getEmptyCameraMetadataNative(long[] metadataPtr) {
         CameraMetadataNative meta = new CameraMetadataNative();
         if (metadataPtr != null && metadataPtr.length > 0) {
             metadataPtr[0] = meta.getMetadataPtr();
@@ -95,7 +106,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         return meta;
     }
 
-    public static TotalCaptureResult generateTotalCaptureResult(Object meta, long frameId) {
+    @UnsupportedAppUsage
+public static TotalCaptureResult generateTotalCaptureResult(Object meta, long frameId) {
         if (meta == null || !(meta instanceof CameraMetadataNative)) {
             return null;
         }
@@ -111,7 +123,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public void addAuthResultInfo(Context context, int uid, int pid, int permBits, String packageName) {
+    @UnsupportedAppUsage
+public void addAuthResultInfo(Context context, int uid, int pid, int permBits, String packageName) {
         context.enforceCallingOrSelfPermission(PERMISSION_SAFE_CAMERA, TAG);
         if (uid == 0) {
             throw new IllegalArgumentException("uid was 0, which is illegal.");
@@ -132,7 +145,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public void setDeathRecipient(IBinder client) {
+    @UnsupportedAppUsage
+public void setDeathRecipient(IBinder client) {
         if (client == null) {
             throw new IllegalArgumentException("client was null");
         }
@@ -146,7 +160,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public boolean isAuthedClient(Context context) {
+    @UnsupportedAppUsage
+public boolean isAuthedClient(Context context) {
         if (context == null) {
             throw new IllegalArgumentException("context was null");
         }
@@ -162,7 +177,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public void preOpenCamera(Context context) {
+    @UnsupportedAppUsage
+public void preOpenCamera(Context context) {
         if (context == null) {
             throw new IllegalArgumentException("context was null");
         }
@@ -177,7 +193,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public void sendOplusExtCamCmd(Context context, IOplusCameraManager.Cmd cmd, int[] param) {
+    @UnsupportedAppUsage
+public void sendOplusExtCamCmd(Context context, IOplusCameraManager.Cmd cmd, int[] param) {
         if (context == null) {
             throw new IllegalArgumentException("context was null");
         }
@@ -191,7 +208,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         }
     }
 
-    public void readMemoryInfo(IOplusCameraManager.Cmd cmd, StringBuilder result, int model) {
+    @UnsupportedAppUsage
+public void readMemoryInfo(IOplusCameraManager.Cmd cmd, StringBuilder result, int model) {
         try {
             OplusCameraManagerGlobal.get().readMemoryInfo(cmd, result, model);
         } catch (CameraAccessException e) {
@@ -202,7 +220,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public void setCallInfo() {
+    @UnsupportedAppUsage
+public void setCallInfo() {
         try {
             OplusCameraManagerGlobal.get().setCallInfo();
         } catch (CameraAccessException e) {
@@ -213,13 +232,15 @@ public final class OplusCameraManager implements IOplusCameraManager {
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public void saveOpPackageName(String packageName) {
+    @UnsupportedAppUsage
+public void saveOpPackageName(String packageName) {
         this.mOpPackageName = packageName;
         Log.i(TAG, "saveOpPackageName, mOpPackageName: " + this.mOpPackageName);
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public void setPackageName() {
+    @UnsupportedAppUsage
+public void setPackageName() {
         for (String packageName : SET_PACKAGE_BLACK_LIST) {
             if (packageName.equals(this.mOpPackageName)) {
                 return;
@@ -234,7 +255,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         }
     }
 
-    public void setRIOClientInfo() throws CameraAccessException {
+    @UnsupportedAppUsage
+public void setRIOClientInfo() throws CameraAccessException {
         Log.i(TAG, "uid = " + Binder.getCallingUid() + ", pid = " + Binder.getCallingPid());
         try {
             OplusCameraManagerGlobal.get().setRIOClientInfo(Binder.getCallingUid(), Binder.getCallingPid());
@@ -243,7 +265,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         }
     }
 
-    public void unRegisterCameraDeviceCallback(Context context) throws CameraAccessException {
+    @UnsupportedAppUsage
+public void unRegisterCameraDeviceCallback(Context context) throws CameraAccessException {
         if (context == null) {
             throw new IllegalArgumentException("context was null");
         }
@@ -255,7 +278,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         }
     }
 
-    public void setDeathRecipient(Context context, IBinder client) {
+    @UnsupportedAppUsage
+public void setDeathRecipient(Context context, IBinder client) {
         if (context == null) {
             throw new IllegalArgumentException("context was null");
         }
@@ -271,7 +295,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         }
     }
 
-    public void setSatelliteCallStatus(Context context, int status) throws CameraAccessException {
+    @UnsupportedAppUsage
+public void setSatelliteCallStatus(Context context, int status) throws CameraAccessException {
         if (context == null) {
             throw new IllegalArgumentException("context was null");
         }
@@ -283,7 +308,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public boolean isPrivilegedApp(String packageName) {
+    @UnsupportedAppUsage
+public boolean isPrivilegedApp(String packageName) {
         String str;
         if (packageName == null || (str = SYSTEM_CAMERA_PACKNAME) == null || !str.equals(packageName)) {
             return false;
@@ -291,7 +317,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         return true;
     }
 
-    public void setTorchIntensity(int torchIntensity) {
+    @UnsupportedAppUsage
+public void setTorchIntensity(int torchIntensity) {
         if (torchIntensity < 0) {
             throw new IllegalArgumentException("torchIntensity was less than 0, which is illegal.");
         }
@@ -304,7 +331,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         }
     }
 
-    public void disconnectClients() {
+    @UnsupportedAppUsage
+public void disconnectClients() {
         try {
             OplusCameraManagerGlobal.get().disconnectClients();
         } catch (CameraAccessException e) {
@@ -314,7 +342,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         }
     }
 
-    public boolean isClientConnected() {
+    @UnsupportedAppUsage
+public boolean isClientConnected() {
         try {
             return OplusCameraManagerGlobal.get().isClientConnected();
         } catch (CameraAccessException e) {
@@ -327,12 +356,14 @@ public final class OplusCameraManager implements IOplusCameraManager {
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public boolean isCameraUnitSession() {
+    @UnsupportedAppUsage
+public boolean isCameraUnitSession() {
         return this.mIsCameraUnitSession;
     }
 
     @Override // android.hardware.camera2.IOplusCameraManager
-    public void parseSessionParameters(CaptureRequest sessionParams) {
+    @UnsupportedAppUsage
+public void parseSessionParameters(CaptureRequest sessionParams) {
         if (sessionParams == null) {
             setIsCameraUnitSession(false);
             return;
@@ -348,7 +379,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         Log.i(TAG, "parseSessionParameters mIsCameraUnitSession: " + this.mIsCameraUnitSession);
     }
 
-    public void oplusDetachImage(Image image, ImageReader imgreader) {
+    @UnsupportedAppUsage
+public void oplusDetachImage(Image image, ImageReader imgreader) {
         try {
             Method method = ImageReader.class.getDeclaredMethod("detachImage", Image.class);
             method.setAccessible(true);
@@ -359,7 +391,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         Log.i(TAG, "using reflection to visit detachImage method in ImageReader");
     }
 
-    public static void setOmojiJson(String jsonInfo) {
+    @UnsupportedAppUsage
+public static void setOmojiJson(String jsonInfo) {
         Log.i(TAG, "setOmojiJson called.");
         if (jsonInfo == null || "".equals(jsonInfo)) {
             Log.i(TAG, "jsonInfo is null");
@@ -374,7 +407,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         }
     }
 
-    public void closeAON() throws CameraAccessException {
+    @UnsupportedAppUsage
+public void closeAON() throws CameraAccessException {
         Log.i(TAG, "uid = " + Binder.getCallingUid() + ", pid = " + Binder.getCallingPid());
         try {
             OplusCameraManagerGlobal.get().closeAON();
@@ -432,7 +466,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         private OplusCameraManagerGlobal() {
         }
 
-        public static OplusCameraManagerGlobal get() {
+        @UnsupportedAppUsage
+public static OplusCameraManagerGlobal get() {
             return gCameraManager;
         }
 
@@ -452,7 +487,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public IBinder getCameraServiceRemote() {
+        @UnsupportedAppUsage
+public IBinder getCameraServiceRemote() {
             IBinder iBinder;
             synchronized (this.mLock) {
                 connectCameraServiceLocked();
@@ -464,7 +500,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             return iBinder;
         }
 
-        public void addAuthResultInfo(int uid, int pid, int permBits, String packageName) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void addAuthResultInfo(int uid, int pid, int permBits, String packageName) throws CameraAccessException, RemoteException {
             Log.e(TAG, "addAuthResultInfo");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -486,7 +523,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void setDeathRecipient(IBinder client) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void setDeathRecipient(IBinder client) throws CameraAccessException, RemoteException {
             Log.e(TAG, "setDeathRecipient");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -505,7 +543,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public boolean isAuthedClient(String packageName) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public boolean isAuthedClient(String packageName) throws CameraAccessException, RemoteException {
             Log.e(TAG, "isAuthedClient, need check packageName: " + packageName);
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -530,7 +569,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void preOpenCamera(String packageName) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void preOpenCamera(String packageName) throws CameraAccessException, RemoteException {
             Log.e(TAG, "preOpenCamera, need check packageName: " + packageName);
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -553,7 +593,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void sendOplusExtCamCmd(String packageName, IOplusCameraManager.Cmd cmd, int[] param) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void sendOplusExtCamCmd(String packageName, IOplusCameraManager.Cmd cmd, int[] param) throws CameraAccessException, RemoteException {
             Log.e(TAG, "sendOplusExtCamCmd, packageName: " + packageName + ", cmd: " + cmd);
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -577,7 +618,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void readMemoryInfo(IOplusCameraManager.Cmd cmd, StringBuilder result, int model) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void readMemoryInfo(IOplusCameraManager.Cmd cmd, StringBuilder result, int model) throws CameraAccessException, RemoteException {
             Log.i(TAG, "readMemoryInfo, cmd: " + cmd);
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -601,7 +643,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void setCallInfo() throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void setCallInfo() throws CameraAccessException, RemoteException {
             Log.e(TAG, "setCallInfo");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -619,7 +662,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void setPackageName(String packageName) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void setPackageName(String packageName) throws CameraAccessException, RemoteException {
             Log.i(TAG, "setPackageName");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -638,7 +682,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void setClientInfo(String packageName, int uid, int pid) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void setClientInfo(String packageName, int uid, int pid) throws CameraAccessException, RemoteException {
             Log.i(TAG, "setClientInfo, packageName: " + packageName + ", uid: " + uid + ", pid: " + pid);
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -659,7 +704,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void setRIOClientInfo(int uid, int pid) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void setRIOClientInfo(int uid, int pid) throws CameraAccessException, RemoteException {
             Log.i(TAG, "uid: " + uid + ", pid: " + pid);
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -679,7 +725,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void unRegisterCameraDeviceCallback(String packageName) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void unRegisterCameraDeviceCallback(String packageName) throws CameraAccessException, RemoteException {
             Log.i(TAG, "unRegisterCameraDeviceCallback");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -698,7 +745,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void setDeathRecipient(String packageName, IBinder client) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void setDeathRecipient(String packageName, IBinder client) throws CameraAccessException, RemoteException {
             Log.i(TAG, "setDeathRecipient");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -718,7 +766,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void setSatelliteCallStatus(String packageName, int status) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void setSatelliteCallStatus(String packageName, int status) throws CameraAccessException, RemoteException {
             Log.i(TAG, "setSatelliteCallStatus, status: " + status);
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -738,7 +787,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void setOmojiJson(String atavatarInfo) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void setOmojiJson(String atavatarInfo) throws CameraAccessException, RemoteException {
             Log.i(TAG, "setOmojiJson E");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -763,7 +813,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void setTorchIntensity(int torchIntensity) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void setTorchIntensity(int torchIntensity) throws CameraAccessException, RemoteException {
             Log.d(TAG, "setTorchIntensity: " + torchIntensity);
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -782,7 +833,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void disconnectClients() throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void disconnectClients() throws CameraAccessException, RemoteException {
             Log.e(TAG, "disconnectClients");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -800,7 +852,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public boolean isClientConnected() throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public boolean isClientConnected() throws CameraAccessException, RemoteException {
             Log.e(TAG, "isClientConnected");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -824,7 +877,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void closeAON() throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void closeAON() throws CameraAccessException, RemoteException {
             Log.i(TAG, "closeAON E");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -842,7 +896,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
             }
         }
 
-        public void setIsCameraUnitSession(boolean isCameraUnitSession) throws CameraAccessException, RemoteException {
+        @UnsupportedAppUsage
+public void setIsCameraUnitSession(boolean isCameraUnitSession) throws CameraAccessException, RemoteException {
             Log.i(TAG, "setIsCameraUnitSession E");
             IBinder remote = getCameraServiceRemote();
             if (remote == null) {
@@ -862,7 +917,8 @@ public final class OplusCameraManager implements IOplusCameraManager {
         }
 
         @Override // android.os.IBinder.DeathRecipient
-        public void binderDied() {
+        @UnsupportedAppUsage
+public void binderDied() {
             this.mRemote = null;
         }
     }

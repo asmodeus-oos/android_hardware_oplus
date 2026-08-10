@@ -1,8 +1,11 @@
 package android.view;
 
+import android.compat.annotation.UnsupportedAppUsage;
+
 public class OplusWindowManager {
 
     public OplusWindowManager() {}
 
-    public void requestKeyguard(String command) {}
+    @UnsupportedAppUsage
+public void requestKeyguard(String command) {}
 }

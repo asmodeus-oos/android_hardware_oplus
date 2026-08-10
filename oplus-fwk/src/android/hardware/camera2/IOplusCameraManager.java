@@ -4,19 +4,27 @@ import android.common.IOplusCommonFeature;
 import android.common.OplusFeatureList;
 import android.content.Context;
 import android.os.IBinder;
+import android.compat.annotation.UnsupportedAppUsage;
 
 /* loaded from: classes.dex */
 public interface IOplusCameraManager extends IOplusCommonFeature {
+    @UnsupportedAppUsage
     public static final IOplusCameraManager DEFAULT = new IOplusCameraManager() { // from class: android.hardware.camera2.IOplusCameraManager.1
     };
+    @UnsupportedAppUsage
     public static final String NAME = "IOplusCameraManager";
 
     /* loaded from: classes.dex */
     public enum Cmd {
+        @UnsupportedAppUsage
         CMD_NONE,
+        @UnsupportedAppUsage
         CMD_PRE_CAPTURE,
+        @UnsupportedAppUsage
         CMD_PRE_OPEN,
+        @UnsupportedAppUsage
         CMD_PRE_EVLIST,
+        @UnsupportedAppUsage
         CMD_READ_MEM
     }
 

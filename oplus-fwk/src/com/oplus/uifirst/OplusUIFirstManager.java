@@ -5,10 +5,13 @@
 
 package com.oplus.uifirst;
 
+import android.compat.annotation.UnsupportedAppUsage;
+
 public class OplusUIFirstManager implements IOplusUIFirstManager {
     private static OplusUIFirstManager sInstance = null;
 
-    public static OplusUIFirstManager getInstance() {
+    @UnsupportedAppUsage
+public static OplusUIFirstManager getInstance() {
         if (sInstance == null) {
             sInstance = new OplusUIFirstManager();
         }
@@ -16,6 +19,7 @@ public class OplusUIFirstManager implements IOplusUIFirstManager {
     }
 
     @Override
-    public void setUxThreadValue(int pid, int flag, String tag) {
+    @UnsupportedAppUsage
+public void setUxThreadValue(int pid, int flag, String tag) {
     }
 }

@@ -1,26 +1,30 @@
 package com.oplus.app;
 
 import android.content.Context;
+import android.compat.annotation.UnsupportedAppUsage;
 
 public class OplusAppSwitchManager {
 
     private static OplusAppSwitchManager sOplusAppSwitchManager = null;
+@UnsupportedAppUsage
+public static int APP_SWITCH_VERSION = 1;
 
-    public static int APP_SWITCH_VERSION = 1;
-
-    public static OplusAppSwitchManager getInstance() {
+    @UnsupportedAppUsage
+public static OplusAppSwitchManager getInstance() {
         if (sOplusAppSwitchManager == null) {
             sOplusAppSwitchManager = new OplusAppSwitchManager();
         }
         return sOplusAppSwitchManager;
     }
 
-    public boolean registerAppSwitchObserver(Context context,
+    @UnsupportedAppUsage
+public boolean registerAppSwitchObserver(Context context,
             OnAppSwitchObserver observer, OplusAppSwitchConfig config) {
         return true;
     }
 
-    public boolean unregisterAppSwitchObserver(Context context, OnAppSwitchObserver observer) {
+    @UnsupportedAppUsage
+public boolean unregisterAppSwitchObserver(Context context, OnAppSwitchObserver observer) {
         return true;
     }
 

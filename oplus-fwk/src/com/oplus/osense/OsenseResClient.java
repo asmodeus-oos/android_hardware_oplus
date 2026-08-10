@@ -7,49 +7,68 @@ package com.oplus.osense;
 
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.compat.annotation.UnsupportedAppUsage;
 
 public class OsenseResClient {
-    public static OsenseResClient get(Class clazz) {
+    @UnsupportedAppUsage
+public static OsenseResClient get(Class clazz) {
         return new OsenseResClient();
     }
 
-    public void requestSysResource(int eventId, Bundle extra) {}
+    @UnsupportedAppUsage
+public void requestSysResource(int eventId, Bundle extra) {}
 
-    public void releaseSysResource(int eventId) {}
+    @UnsupportedAppUsage
+public void releaseSysResource(int eventId) {}
 
-    public long osenseSetSceneAction(Object request) {
+    @UnsupportedAppUsage
+public long osenseSetSceneAction(Object request) {
         return 0L;
     }
 
-    public void osenseClrSceneAction(long handle) {}
+    @UnsupportedAppUsage
+public void osenseClrSceneAction(long handle) {}
 
-    public void osenseSetNotification(Object request) {}
+    @UnsupportedAppUsage
+public void osenseSetNotification(Object request) {}
 
-    public void osenseSetCtrlData(Object request) {}
+    @UnsupportedAppUsage
+public void osenseSetCtrlData(Object request) {}
 
-    public void osenseClrCtrlData() {}
+    @UnsupportedAppUsage
+public void osenseClrCtrlData() {}
 
-    public void reportKeyThread(String threadName, int tid, int supportedEventId, Bundle extra) {}
+    @UnsupportedAppUsage
+public void reportKeyThread(String threadName, int tid, int supportedEventId, Bundle extra) {}
 
-    public void removeKeyThread(int tid, Bundle extra) {}
+    @UnsupportedAppUsage
+public void removeKeyThread(int tid, Bundle extra) {}
 
-    public void removeKeyThread(String threadName, Bundle extra) {}
+    @UnsupportedAppUsage
+public void removeKeyThread(String threadName, Bundle extra) {}
 
-    public void setHookKeyThread(String packageName, String threadName, int op, int pid, int[] tids) {}
+    @UnsupportedAppUsage
+public void setHookKeyThread(String packageName, String threadName, int op, int pid, int[] tids) {}
 
-    public void reportEvent(int eventId, Bundle extra) {}
+    @UnsupportedAppUsage
+public void reportEvent(int eventId, Bundle extra) {}
 
-    public void registerScene(int sceneId, Object listener) {}
+    @UnsupportedAppUsage
+public void registerScene(int sceneId, Object listener) {}
 
-    public void unregisterScene(int sceneId, Object listener) {}
+    @UnsupportedAppUsage
+public void unregisterScene(int sceneId, Object listener) {}
 
-    public int osenseGetModeStatus(int mode) {
+    @UnsupportedAppUsage
+public int osenseGetModeStatus(int mode) {
         return 0;
     }
 
-    public long[][][] osenseGetPerfLimit() {
+    @UnsupportedAppUsage
+public long[][][] osenseGetPerfLimit() {
         return null;
     }
 
-    public void osenseSendFling(MotionEvent ev, int duration) {}
+    @UnsupportedAppUsage
+public void osenseSendFling(MotionEvent ev, int duration) {}
 }

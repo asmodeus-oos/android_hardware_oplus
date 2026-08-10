@@ -1,18 +1,30 @@
 package com.oplus.os;
 
+import android.compat.annotation.UnsupportedAppUsage;
+
 public class OplusBuild {
 
-    public static final int OplusOS_11_3 = 22;
+    @UnsupportedAppUsage
+public static final int OplusOS_11_3 = 22;
 
-    public static int getOplusOSVERSION() {
+    @UnsupportedAppUsage
+public static int getOplusOSVERSION() {
         return 23;
     }
 
     public static class VERSION {
-        public static final String RELEASE = "unknown";
+        @UnsupportedAppUsage
+public VERSION() {
+        }
 
-        public static final int SDK_VERSION = getOplusOSVERSION();
-        public static final int SDK_SUB_VERSION = 1;
+        @UnsupportedAppUsage
+public static final String RELEASE = "unknown";
+
+        @UnsupportedAppUsage
+public static final int SDK_VERSION = getOplusOSVERSION();
+
+        @UnsupportedAppUsage
+public static final int SDK_SUB_VERSION = 1;
     }
 
 }

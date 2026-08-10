@@ -10,6 +10,7 @@ import android.os.storage.IStorageManager;
 import android.os.storage.StorageManager;
 import android.os.storage.VolumeInfo;
 import android.util.Log;
+import android.compat.annotation.UnsupportedAppUsage;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,7 +34,8 @@ public class OplusUsbEnvironment extends Environment {
         getVolumes();
     }
 
-    public static File getExternalSdDirectory(Context context) {
+    @UnsupportedAppUsage
+public static File getExternalSdDirectory(Context context) {
         String path;
         synchronized (sLock) {
             update(context);
@@ -45,7 +47,8 @@ public class OplusUsbEnvironment extends Environment {
         return new File(path);
     }
 
-    public static String getExternalSdState(Context context) {
+    @UnsupportedAppUsage
+public static String getExternalSdState(Context context) {
         String path;
         final StorageManager sm = context.getSystemService(StorageManager.class);
         synchronized (sLock) {
@@ -59,7 +62,8 @@ public class OplusUsbEnvironment extends Environment {
     }
 
 
-    public static String getExternalPath(Context context) {
+    @UnsupportedAppUsage
+public static String getExternalPath(Context context) {
         String path;
         synchronized (sLock) {
             update(context);
@@ -68,7 +72,8 @@ public class OplusUsbEnvironment extends Environment {
         return path;
     }
 
-    public static File getInternalSdDirectory(Context context) {
+    @UnsupportedAppUsage
+public static File getInternalSdDirectory(Context context) {
         String path;
         synchronized (sLock) {
             update(context);
@@ -80,7 +85,8 @@ public class OplusUsbEnvironment extends Environment {
         return new File(path);
     }
 
-    public static String getInternalSdState(Context context) {
+    @UnsupportedAppUsage
+public static String getInternalSdState(Context context) {
         String path;
         final StorageManager sm = context.getSystemService(StorageManager.class);
         synchronized (sLock) {
@@ -94,7 +100,8 @@ public class OplusUsbEnvironment extends Environment {
     }
 
 
-    public static String getInternalPath(Context context) {
+    @UnsupportedAppUsage
+public static String getInternalPath(Context context) {
         String path;
         synchronized (sLock) {
             update(context);
@@ -103,7 +110,8 @@ public class OplusUsbEnvironment extends Environment {
         return path;
     }
 
-    public static List<String> getOtgPath(Context context) {
+    @UnsupportedAppUsage
+public static List<String> getOtgPath(Context context) {
         synchronized (sLock) {
             update(context);
             if (sOtgPathes == null) {
@@ -113,7 +121,8 @@ public class OplusUsbEnvironment extends Environment {
         }
     }
 
-    public static void getVolumes() {
+    @UnsupportedAppUsage
+public static void getVolumes() {
         if (sMountService == null) {
             Log.e(TAG, "getVolumes: sMountService is null!!!");
             return;
@@ -145,7 +154,8 @@ public class OplusUsbEnvironment extends Environment {
         }
     }
 
-    public static boolean isVolumeMounted(Context context, String path) {
+    @UnsupportedAppUsage
+public static boolean isVolumeMounted(Context context, String path) {
         synchronized (sLock) {
             update(context);
         }

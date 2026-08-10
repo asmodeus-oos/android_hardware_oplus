@@ -8,8 +8,11 @@ package com.oplus.nec;
 import android.common.IOplusCommonFeature;
 import android.common.OplusFeatureList;
 import android.os.Bundle;
+import android.compat.annotation.UnsupportedAppUsage;
+import android.compat.annotation.UnsupportedAppUsage;
 
 public interface IOplusNecManager extends IOplusCommonFeature {
+    @UnsupportedAppUsage
     public static final IOplusNecManager DEFAULT = new IOplusNecManager() {};
 
     @Override
