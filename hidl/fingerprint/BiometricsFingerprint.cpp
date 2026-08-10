@@ -75,7 +75,11 @@ Return<RequestStatus> BiometricsFingerprint::setActiveGroup(uint32_t gid,
 }
 
 Return<RequestStatus> BiometricsFingerprint::authenticate(uint64_t operationId, uint32_t gid) {
-    setDimlayerHbm(1);
+    // The ferrari panel driver owns the optical FOD highlight.  Enabling the
+    // legacy dim-layer HBM ioctl here drives the entire panel into HBM, which
+    // appears as a full-screen brightness flash during fingerprint unlock.
+    // Keep the framework dimming overlay disabled and let onFingerDown() only
+    // assert the localized fingerprint press state.
     return mOplusBiometricsFingerprint->authenticate(operationId, gid);
 }
 
