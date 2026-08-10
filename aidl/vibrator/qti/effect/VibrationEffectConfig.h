@@ -1,3 +1,4 @@
+// Signed-off-by: Bubun Das <bubundas17@gmail.com>
 /*
  * SPDX-FileCopyrightText: 2025 The LineageOS Project
  * SPDX-License-Identifier: Apache-2.0
@@ -458,9 +459,9 @@ static const int8_t effect_1_8_strong[] = {
 static const struct effect_stream effects[] = {
     {
         .effect_id = 0,
-        .length = 276,
+        .length = 260,
         .play_rate_hz = 24000,
-        .data = effect_1_8_strong,
+        .data = effect_0_0_strong,
     },
     {
         .effect_id = 1,

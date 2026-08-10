@@ -1,3 +1,4 @@
+// Signed-off-by: Bubun Das <bubundas17@gmail.com>
 /*
  * Copyright (c) 2018-2021, The Linux Foundation. All rights reserved.
  * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
@@ -335,7 +336,8 @@ int InputFFDevice::playEffect(int effectId, EffectStrength es, long* playLengthM
     // not affected.
     if (effectId == static_cast<int>(Effect::CLICK) ||
         effectId == static_cast<int>(Effect::DOUBLE_CLICK) ||
-        effectId == static_cast<int>(Effect::TICK)) {
+        effectId == static_cast<int>(Effect::TICK) ||
+        effectId == static_cast<int>(Effect::HEAVY_CLICK)) {
         switch (es) {
             case EffectStrength::LIGHT:
                 mCurrMagnitude = UI_LIGHT_MAGNITUDE;
@@ -506,11 +508,13 @@ ndk::ScopedAStatus Vibrator::perform(Effect effect, EffectStrength es,
     if (ledVib.mDetected) {
         switch (effect) {
             case Effect::CLICK:
-                ledVib.write_value(LED_DEVICE "/vmax", "2500");
+                // Short, crisp UI click for volume/charger events on the
+                // ferrari's X-axis LRA; keep TICK as the lighter slider step.
+                ledVib.write_value(LED_DEVICE "/vmax", "2000");
                 ledVib.write_value(LED_DEVICE "/waveform_index", "1");
                 break;
             case Effect::DOUBLE_CLICK:
-                ledVib.write_value(LED_DEVICE "/vmax", "2500");
+                ledVib.write_value(LED_DEVICE "/vmax", "2000");
                 ledVib.write_value(LED_DEVICE "/waveform_index", "1");
                 break;
             case Effect::TICK:
