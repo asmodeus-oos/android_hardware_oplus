@@ -38,17 +38,17 @@ class PickupSensor(
         }
         entryTimestamp = SystemClock.elapsedRealtime()
         if (event.values[0] == sensorValue) {
-            if (Utils.isPickUpSetToWake(context)) {
-                wakeLock.acquire(WAKELOCK_TIMEOUT_MS)
-                powerManager.wakeUpWithProximityCheck(
-                    SystemClock.uptimeMillis(),
-                    PowerManager.WAKE_REASON_GESTURE,
-                    TAG,
-                    Display.DEFAULT_DISPLAY,
-                )
-            } else {
-                Utils.launchDozePulse(context)
-            }
+            // This doze service only runs while Always-on is OFF. A doze pulse
+            // then often leaves a dim wallpaper-only frame (no clock / UDFPS
+            // icon) on Oplus panels. Always wake to the interactive keyguard
+            // so clock + fingerprint affordance are visible; FP still works.
+            wakeLock.acquire(WAKELOCK_TIMEOUT_MS)
+            powerManager.wakeUpWithProximityCheck(
+                SystemClock.uptimeMillis(),
+                PowerManager.WAKE_REASON_GESTURE,
+                TAG,
+                Display.DEFAULT_DISPLAY,
+            )
         }
     }
 
