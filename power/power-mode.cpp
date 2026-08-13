@@ -1,0 +1,97 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 The LineageOS Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include <aidl/android/hardware/power/BnPower.h>
+#include <aidl/vendor/oplus/hardware/touch/IOplusTouch.h>
+
+#include <cerrno>
+#include <climits>
+#include <cstdlib>
+
+#include <android-base/logging.h>
+#include <android-base/stringprintf.h>
+#include <android-base/strings.h>
+#include <android/binder_manager.h>
+
+#include <OplusTouchConstants.h>
+
+using aidl::android::hardware::power::Mode;
+using aidl::vendor::oplus::hardware::touch::IOplusTouch;
+
+#ifdef LIBPERFMGR_EXT
+namespace aidl::google::hardware::power::impl::pixel {
+#else
+namespace aidl::android::hardware::power::impl {
+#endif
+
+bool isDeviceSpecificModeSupported(Mode type, bool* _aidl_return) {
+    switch (type) {
+        case Mode::DOUBLE_TAP_TO_WAKE:
+            *_aidl_return = true;
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool setDeviceSpecificMode(Mode type, bool enabled) {
+    switch (type) {
+        case Mode::DOUBLE_TAP_TO_WAKE: {
+            std::string tmp;
+            int contents = 0;
+
+            const std::string instance = std::string() + IOplusTouch::descriptor + "/default";
+            // Do not wait for the stock Oplus touch service here.  ferrari does
+            // not ship that service, and waiting for it blocks the power HAL
+            // forever.  PowerManagerService then blocks in nativeInit until
+            // system_server's watchdog kills the device during every boot.
+            AIBinder* binder = AServiceManager_checkService(instance.c_str());
+            if (binder == nullptr) {
+                LOG(WARNING) << "Oplus touch service is unavailable; using the QTI touch-node fallback";
+                return false;
+            }
+
+            std::shared_ptr<IOplusTouch> oplusTouch =
+                    IOplusTouch::fromBinder(ndk::SpAIBinder(binder));
+            LOG(INFO) << "Power mode: " << toString(type) << " isDoubleTapEnabled: " << enabled;
+
+            if (!oplusTouch) {
+                LOG(ERROR) << "Oplus touch service is unavailable";
+                return false;
+            }
+
+            oplusTouch->touchReadNodeFile(OplusTouchConstants::DEFAULT_TP_IC_ID,
+                                          OplusTouchConstants::DOUBLE_TAP_INDEP_NODE, &tmp);
+            const std::string value = ::android::base::Trim(tmp);
+            char* end = nullptr;
+            errno = 0;
+            const long parsed = std::strtol(value.c_str(), &end, 16);
+            if (errno != 0 || end == value.c_str() || *end != '\0' || parsed < 0 ||
+                    parsed > INT_MAX) {
+                LOG(ERROR) << "Invalid double-tap gesture mask";
+                return false;
+            }
+            contents = static_cast<int>(parsed);
+
+            if (enabled) {
+                contents |= OplusTouchConstants::DOUBLE_TAP_GESTURE;
+            } else {
+                contents &= ~OplusTouchConstants::DOUBLE_TAP_GESTURE;
+            }
+
+            oplusTouch->touchWriteNodeFileOneWay(OplusTouchConstants::DEFAULT_TP_IC_ID,
+                                                 OplusTouchConstants::DOUBLE_TAP_ENABLE_NODE,
+                                                 contents != 0 ? "1" : "0");
+            oplusTouch->touchWriteNodeFileOneWay(OplusTouchConstants::DEFAULT_TP_IC_ID,
+                                                 OplusTouchConstants::DOUBLE_TAP_INDEP_NODE,
+                                                 ::android::base::StringPrintf("%x", contents));
+            return true;
+        }
+        default:
+            return false;
+    }
+}
+
+}  // namespace

@@ -1,0 +1,11 @@
+# ferrari: allow the camera service (torch strength extension runs in
+# cameraserver) and SystemUI to drive the torch LED brightness nodes
+# directly; the vendor CamX HAL does not implement torch strength.
+allow cameraserver ferrari_torch_brightness:file rw_file_perms;
+allow system_app ferrari_torch_brightness:file rw_file_perms;
+
+# The torch nodes live under the LED class device tree; the leds
+# directory (and the led:torch_* subdirectories) are labeled sysfs_leds,
+# so grant search permission for path traversal to the brightness files.
+allow cameraserver sysfs_leds:dir search;
+allow system_app sysfs_leds:dir search;

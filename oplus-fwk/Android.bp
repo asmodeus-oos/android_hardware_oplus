@@ -1,0 +1,21 @@
+//
+// Copyright (C) 2024 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+java_library {
+    name: "oplus-fwk",
+    installable: true,
+
+    srcs: [
+        "src/**/*.aidl",
+        "src/**/*.java",
+    ],
+
+    // Stub OPLUS framework API surface: expose methods to apps (OPlusCamera)
+    // instead of hiddenapi-blocking them.
+    libs: [
+        "unsupportedappusage",
+    ],
+}
