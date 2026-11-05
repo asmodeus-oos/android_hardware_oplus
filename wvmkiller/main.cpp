@@ -40,19 +40,27 @@ bool disableL1Aidl() {
 
     auto drmFactory =
             IDrmFactory::fromBinder(ndk::SpAIBinder(AServiceManager_getService(instance.c_str())));
-    CHECK(drmFactory);
+    if (!drmFactory) {
+        return false;
+    }
 
     Uuid uuid;
     uuid.uuid = std::to_array(WIDEVINE_UUID);
 
     std::shared_ptr<IDrmPlugin> drmPlugin;
-    CHECK(drmFactory->createDrmPlugin(uuid, APP_PACKAGE_NAME, &drmPlugin).isOk());
+    if (!drmFactory->createDrmPlugin(uuid, APP_PACKAGE_NAME, &drmPlugin).isOk() || !drmPlugin) {
+        return false;
+    }
 
     std::string provisioningModel;
-    CHECK(drmPlugin->getPropertyString("provisioningModel", &provisioningModel).isOk());
+    if (!drmPlugin->getPropertyString("provisioningModel", &provisioningModel).isOk()) {
+        return false;
+    }
 
     std::string systemId;
-    CHECK(drmPlugin->getPropertyString("systemId", &systemId).isOk());
+    if (!drmPlugin->getPropertyString("systemId", &systemId).isOk()) {
+        return false;
+    }
 
     return provisioningModel != "BootCertificateChain" && systemId.size() > 5;
 }
@@ -67,11 +75,14 @@ bool disableL1Hidl() {
     std::string systemId;
 
     const auto callback = [&](Status status, const sp<IDrmPlugin>& drmPlugin) {
-        CHECK(status == Status::OK);
+        if (status != Status::OK || !drmPlugin) {
+            return;
+        }
 
         drmPlugin->getPropertyString("systemId", [&](Status status, const hidl_string& value) {
-            CHECK(status == Status::OK);
-            systemId = value;
+            if (status == Status::OK) {
+                systemId = value;
+            }
         });
     };
 

@@ -16,6 +16,7 @@
 
 #define LOG_TAG "android.hardware.biometrics.fingerprint@2.3-service.oplus"
 
+#include <android-base/logging.h>
 #include "BiometricsFingerprint.h"
 
 namespace android {
@@ -28,7 +29,11 @@ namespace implementation {
 BiometricsFingerprint::BiometricsFingerprint()
     : mOplusDisplayFd(open("/dev/oplus_display", O_RDWR)) {
     mOplusBiometricsFingerprint = IOplusBiometricsFingerprint::getService();
-    mOplusBiometricsFingerprint->setHalCallback(this);
+    if (mOplusBiometricsFingerprint != nullptr) {
+        mOplusBiometricsFingerprint->setHalCallback(this);
+    } else {
+        LOG(ERROR) << "Failed to get IOplusBiometricsFingerprint service";
+    }
 }
 
 Return<uint64_t> BiometricsFingerprint::setNotify(
